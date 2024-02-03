@@ -5,12 +5,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import pl.marek.securityjwt.model.User;
-
-import java.util.Optional;
+import pl.marek.securityjwt.model.RefreshToken;
 
 @Repository
-@Transactional(propagation = Propagation.MANDATORY, isolation = Isolation.READ_COMMITTED)
-public interface UserRepository extends JpaRepository<User, Long> {
-    Optional<User> findByEmail(String email);
+@Transactional(propagation = Propagation.MANDATORY, isolation =  Isolation.READ_COMMITTED)
+public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Long> {
 }

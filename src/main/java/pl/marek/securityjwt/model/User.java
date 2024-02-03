@@ -82,4 +82,6 @@ class User {
     @Future
     private LocalDateTime resetPasswordTokenExpirationDate;
 
+    @OneToMany(mappedBy = "user")
+    private Collection<RefreshToken> refreshTokens;
 }

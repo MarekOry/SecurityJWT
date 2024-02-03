@@ -1,4 +1,4 @@
-package pl.marek.securityjwt.Exception;
+package pl.marek.securityjwt.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
