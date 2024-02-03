@@ -10,4 +10,5 @@ import pl.marek.securityjwt.model.Role;
 @Repository
 @Transactional(propagation = Propagation.MANDATORY, isolation = Isolation.READ_COMMITTED)
 public interface RoleRepository extends JpaRepository<Role, Long> {
+    Role findByName(String name);
 }

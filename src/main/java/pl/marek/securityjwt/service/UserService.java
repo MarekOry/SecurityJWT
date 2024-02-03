@@ -1,7 +1,7 @@
 package pl.marek.securityjwt.service;
 
 import org.springframework.stereotype.Service;
-import pl.marek.securityjwt.Exception.ResourceNotFoundException;
+import pl.marek.securityjwt.exception.ResourceNotFoundException;
 import pl.marek.securityjwt.repository.UserRepository;
 import pl.marek.securityjwt.model.User;
 
@@ -22,6 +22,11 @@ public class UserService {
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(ResourceNotFoundException::new);
     }
 
 }
