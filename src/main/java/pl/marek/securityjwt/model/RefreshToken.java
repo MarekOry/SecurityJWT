@@ -21,10 +21,7 @@ public class RefreshToken {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Version
-    @NotNull
-    private Long version;
-
+    @Column(unique = true)
     @NotNull
     private String token;
 
@@ -36,6 +33,10 @@ public class RefreshToken {
     @NotNull
     @Future
     private LocalDateTime expiryDate;
+
+    private boolean expired;
+
+    private boolean revoked;
 
     public RefreshToken(String token, User user, LocalDateTime expiryDate){
         this.token = token;
