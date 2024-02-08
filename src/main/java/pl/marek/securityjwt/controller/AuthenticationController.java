@@ -1,8 +1,10 @@
 package pl.marek.securityjwt.controller;
 
+import io.jsonwebtoken.JwtException;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -10,9 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
-import pl.marek.securityjwt.dto.JwtAuthenticationResponse;
-import pl.marek.securityjwt.dto.UserAuthenticationDTO;
-import pl.marek.securityjwt.dto.UserRegisterDTO;
+import pl.marek.securityjwt.dto.*;
 import pl.marek.securityjwt.exception.RestException;
 import pl.marek.securityjwt.security.AppUserDetailsService;
 import pl.marek.securityjwt.service.AuthenticationService;
@@ -73,7 +73,25 @@ public class AuthenticationController {
         final String refreshToken = jwtUtil.generateRefreshToken(userDetails);
         LocalDateTime expirationTime = LocalDateTime.ofInstant(jwtUtil.getExpirationDateFromToken(refreshToken).toInstant(), ZoneId.systemDefault());
 
-        authenticationService.registerRefreshToken(refreshToken, userAuthenticationDTO.getEmail(), expirationTime);
+        authenticationService.saveRefreshToken(refreshToken, userAuthenticationDTO.getEmail(), expirationTime);
         return ResponseEntity.ok(new JwtAuthenticationResponse(accessToken, refreshToken));
+    }
+
+    @PostMapping("/refresh-token")
+    public ResponseEntity<JwtRefreshTokenResponse> refreshToken(@RequestBody JwtRefreshTokenRequest jwtRefreshRequest) {
+        String username;
+        try {
+            username = jwtUtil.getUsernameFromToken(jwtRefreshRequest.getRefreshToken());
+        } catch (JwtException ex) {
+            throw new RestException("Exception.refresh.token.is.not.valid");
+        }
+        if (!authenticationService.checkIfTokenExists(jwtRefreshRequest.getRefreshToken(), username)) {
+            throw new RestException("Exception.refresh.token.is.not.valid");
+        }
+        Long id = userService.getUserByEmail(username).getId();
+        final UserDetails userDetails = appUserDetailsService.loadUserByUsername(username);
+        if(!userDetails.isEnabled()) throw new DisabledException("");
+        final String accessToken = jwtUtil.generateAccessToken(userDetails, id);
+        return ResponseEntity.ok(new JwtRefreshTokenResponse(accessToken));
     }
 }

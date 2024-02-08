@@ -16,6 +16,7 @@ import pl.marek.securityjwt.repository.UserRepository;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.List;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.READ_COMMITTED)
@@ -52,11 +53,18 @@ public class AuthenticationService {
 
     }
 
-    public void registerRefreshToken(String refreshToken, String email, LocalDateTime expirationTime){
+    public void saveRefreshToken(String refreshToken, String email, LocalDateTime expirationTime){
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User.not.found"));
         RefreshToken token = new RefreshToken(passwordEncoder.encode(refreshToken), user, expirationTime);
         refreshTokenRepository.save(token);
+    }
+
+
+
+    public boolean checkIfTokenExists(String refreshToken, String email){
+        List<RefreshToken> userTokenList = refreshTokenRepository.findByUserEmail(email);
+        return userTokenList.stream().anyMatch(token -> passwordEncoder.matches(refreshToken, token.getToken()));
     }
 
     private boolean emailTaken(String email) {
