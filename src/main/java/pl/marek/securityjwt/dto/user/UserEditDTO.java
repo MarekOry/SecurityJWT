@@ -1,23 +1,18 @@
-package pl.marek.securityjwt.dto;
+package pl.marek.securityjwt.dto.user;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+
 @NoArgsConstructor
 @Getter
-public class UserRegisterDTO extends UserPasswordDTO {
-
-    @NotNull
-    @Email(message = "Email is not valid", regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
-    private String email;
-
+public class UserEditDTO {
     @NotNull
     @Size(min = 3, max = 20)
-    private String firstName;
+    private String name;
 
     @NotNull
     @Size(min = 3, max = 20)
@@ -28,4 +23,5 @@ public class UserRegisterDTO extends UserPasswordDTO {
     @Pattern(regexp = "[0-9]+")
     private String phoneNumber;
 
+    private long version;
 }

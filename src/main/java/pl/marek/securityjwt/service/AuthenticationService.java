@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import pl.marek.securityjwt.dto.UserRegisterDTO;
+import pl.marek.securityjwt.dto.authentication.UserRegisterDTO;
 import pl.marek.securityjwt.exception.ResourceNotFoundException;
 import pl.marek.securityjwt.exception.RestException;
 import pl.marek.securityjwt.model.RefreshToken;

@@ -1,19 +1,19 @@
-package pl.marek.securityjwt.utils;
+package pl.marek.securityjwt.exception;
 
 import lombok.Getter;
 
 import java.util.List;
 
 @Getter
-public class ExceptionMessage {
+public class Message {
     private final String message;
     private List<String> detailedMessages;
 
-    public ExceptionMessage(String message) {
+    public Message(String message) {
         this.message = message;
     }
 
-    public ExceptionMessage(String message, List<String> detailedMessages) {
+    public Message(String message, List<String> detailedMessages) {
         this.message = message;
         this.detailedMessages = detailedMessages;
     }

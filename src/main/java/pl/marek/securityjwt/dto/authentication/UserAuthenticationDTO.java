@@ -1,4 +1,4 @@
-package pl.marek.securityjwt.dto;
+package pl.marek.securityjwt.dto.authentication;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;

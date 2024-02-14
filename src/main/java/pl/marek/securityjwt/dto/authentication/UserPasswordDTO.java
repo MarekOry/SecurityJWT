@@ -1,4 +1,4 @@
-package pl.marek.securityjwt.dto;
+package pl.marek.securityjwt.dto.authentication;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
