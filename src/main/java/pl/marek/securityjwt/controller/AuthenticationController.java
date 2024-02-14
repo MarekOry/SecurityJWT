@@ -13,12 +13,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import pl.marek.securityjwt.dto.*;
+import pl.marek.securityjwt.dto.authentication.UserAuthenticationDTO;
+import pl.marek.securityjwt.dto.authentication.UserRegisterDTO;
 import pl.marek.securityjwt.exception.RestException;
 import pl.marek.securityjwt.security.AppUserDetailsService;
 import pl.marek.securityjwt.service.AuthenticationService;
 import pl.marek.securityjwt.service.UserService;
 import pl.marek.securityjwt.utils.EmailUtil;
-import pl.marek.securityjwt.utils.ExceptionMessage;
+import pl.marek.securityjwt.exception.Message;
 import pl.marek.securityjwt.utils.JwtUtil;
 
 import java.time.LocalDateTime;
@@ -49,11 +51,11 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<ExceptionMessage> register(@Valid @RequestBody UserRegisterDTO userRegisterDTO, WebRequest webRequest) {
+    public ResponseEntity<Message> register(@Valid @RequestBody UserRegisterDTO userRegisterDTO, WebRequest webRequest) {
         authenticationService.register(userRegisterDTO);
         emailUtil.sendRegisterEmail(userRegisterDTO.getEmail(), webRequest.getLocale());
 
-        return ResponseEntity.ok(new ExceptionMessage("Registered_successfully"));
+        return ResponseEntity.ok(new Message("Registered_successfully"));
     }
 
     @PostMapping("/authentication")

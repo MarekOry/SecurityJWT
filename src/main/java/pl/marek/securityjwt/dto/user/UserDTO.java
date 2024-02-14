@@ -1,4 +1,4 @@
-package pl.marek.securityjwt.dto;
+package pl.marek.securityjwt.dto.user;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
