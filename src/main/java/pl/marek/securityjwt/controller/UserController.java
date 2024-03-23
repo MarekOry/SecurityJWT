@@ -47,8 +47,8 @@ public class UserController {
     @PutMapping("{id}/activation")
     public ResponseEntity<UserDTO> editUserActivation(@Valid @RequestBody UserActivationDTO userActivationDTO,
                                                       @PathVariable Long id) {
-        User user = userService.editUserActivation(id, userActivationDTO);
-        return ResponseEntity.ok(new UserDTO(user));
+        User editedUser = userService.editUserActivation(id, userActivationDTO);
+        return ResponseEntity.ok(new UserDTO(editedUser));
     }
 
     @PatchMapping("/change-password")
