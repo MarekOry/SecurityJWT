@@ -73,15 +73,6 @@ class User {
     @OneToMany(mappedBy = "manager")
     private Collection<User> subordinates;
 
-
-    @Column
-    @Length(min = 30, max = 30)
-    private String resetPasswordToken;
-
-    @Column
-    @Future
-    private LocalDateTime resetPasswordTokenExpirationDate;
-
     @OneToMany(mappedBy = "user")
     private Collection<RefreshToken> refreshTokens;
 }

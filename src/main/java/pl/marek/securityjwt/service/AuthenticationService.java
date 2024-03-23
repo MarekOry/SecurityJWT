@@ -45,8 +45,6 @@ public class AuthenticationService {
         user.setLastName(userRegisterDTO.getLastName());
         user.setPhoneNumber(userRegisterDTO.getPhoneNumber());
         user.setActive(false);
-        user.setResetPasswordToken(null);
-        user.setResetPasswordTokenExpirationDate(null);
 
         user.setRoles(Collections.singletonList(roleRepository.findByName("ROLE_EMPLOYEE")));
         userRepository.save(user);
